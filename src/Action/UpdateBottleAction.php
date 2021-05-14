@@ -31,20 +31,22 @@ final class UpdateBottleAction
 			$result = [
 				'Updated successfully'
 			];
+			$response->getBody()->write((string)json_encode($result));
+
+			return $response
+				->withHeader('Content-Type', 'application/json')
+				->withStatus(201);
 		}
 		else
 			{
 				$result = [
 					'Update went wrong'
 				];
+				$response->getBody()->write((string)json_encode($result));
+
+				return $response
+					->withHeader('Content-Type', 'application/json')
+					->withStatus(403);
 			}
-
-
-		// Build the HTTP response
-		$response->getBody()->write((string)json_encode($result));
-
-		return $response
-			->withHeader('Content-Type', 'application/json')
-			->withStatus(201);
 	}
 }

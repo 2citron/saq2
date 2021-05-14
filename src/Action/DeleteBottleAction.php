@@ -32,12 +32,22 @@ final class DeleteBottleAction
 			$result = [
 				'Deleted successfully'
 			];
+			$response->getBody()->write((string)json_encode($result));
+
+			return $response
+				->withHeader('Content-Type', 'application/json')
+				->withStatus(201);
 		}
 		else
 		{
 			$result = [
 				'Delete went wrong'
 			];
+			$response->getBody()->write((string)json_encode($result));
+
+			return $response
+				->withHeader('Content-Type', 'application/json')
+				->withStatus(403);
 		}
 
 
