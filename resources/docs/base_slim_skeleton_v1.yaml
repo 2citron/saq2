@@ -1,29 +1,144 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Base-Slim-Skeleton
-  description: Structure de base d'un api créé dans le cadre du cours Services Web H2021
-  
-servers: 
-  - url: http://localhost/base-slim-skeleton
+  title: Saq2
+  description: Gestion de bouteille
+servers:
+  - url: https://frozen-hamlet-89463.herokuapp.com/
 paths:
-  /:
+  /bottles:
     get:
       tags:
-        - Livre
-      summary: Message de bienvenue
+        - Bottle
+      summary: Affiche toutes les bouteilles.
       responses:
-        '200': 
-          description: 
+        '201':
+          description: Un tableau des bouteilles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bottles'
+  /bottle:
+    post:
+      tags:
+        - Bottle
+      summary: Ajoute une bouteille.
+      requestBody:
+        description: Les informations de la bouteille à ajouter
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                type_id:
+                  type: integer
+                cost:
+                  type: integer
+                producer:
+                  type: string
+                degree:
+                  type: integer
+                format:
+                  type: integer
+              example:
+                name: 'Kraken'
+                type_id: 1
+                cost: 35
+                producer: 'Kraken Co'
+                degree: '47'
+                format: '750'
+      responses:
+        '201':
+          description: L'id de la bouteille ajoutée
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-                  message:
-                    type: string
+                  bottle_id:
+                    type: integer
                 example:
-                    success: true
-                    message : 'Hello world!'
+                  bottle_id: 1
+    put:
+      tags:
+        - Bottle
+      summary: Update une bouteille.
+      requestBody:
+        description: Les informations de la bouteille à update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bottle'
+      responses:
+        '201':
+          description: Un message de succès
+          content:
+            application/json:
+              schema:
+                type: string
+                example:
+                  'Updated successfully'
+  /bottle/{id}:
+    delete:
+      tags:
+        - Bottle
+      summary: Delete une bouteille.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: L'id de la bouteille à supprimer
+          schema:
+            type: integer
+      responses:
+        '201':
+          description: Un message de succès
+          content:
+            application/json:
+              schema:
+                type: string
+                example:
+                  'Deleted successfully'
+components:
+  schemas:
+    Bottle:
+      type: object
+      required:
+        - id
+        - name
+        - type_id
+        - cost
+        - producer
+        - degree
+        - format
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type_id:
+          type: integer
+        cost:
+          type: integer
+        producer:
+          type: string
+        degree:
+          type: integer
+        format:
+          type: integer
+      example:
+        id: 1
+        name: 'Kraken'
+        type_id: 1
+        cost: 35
+        producer: 'Kraken Co'
+        degree: '47'
+        format: '750'
+    Bottles:
+      type: array
+      items:
+        $ref: '#/components/schemas/Bottle'
