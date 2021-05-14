@@ -19,18 +19,9 @@ final class HomeAction
         
         $response->getBody()->write($result);
 
-        return $response->withHeader('Content-Type', 'application/json');
-        
-        /**
-         * Changer le code de statut de la réponse
-         * 
-         * return $response
-         *          ->withHeader('Content-Type', 'application/json')
-         *          ->withStatus(422);
-         * 
-         */
 
-
-        return $response;
+          return $response
+	          ->withHeader('Content-Type', 'application/json')
+	          ->withStatus(422);
     }
 }
